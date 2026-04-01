@@ -8,9 +8,7 @@ services:
   # su tutte le directory /data/*/  che contengono un file .rat
   # ============================================================================
   ripandtear:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: undermix/ripandtear:latest
     container_name: ripandtear
     restart: unless-stopped
 
@@ -62,9 +60,7 @@ services:
   #     docker compose run --rm manage  (poi entra in /data/NomeCartella e usa -pr)
   # ============================================================================
   manage:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: undermix/ripandtear:latest
     profiles:
       - manage   # Non parte con "docker compose up", solo con "docker compose run"
     volumes:
