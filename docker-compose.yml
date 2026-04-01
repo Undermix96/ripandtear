@@ -10,11 +10,12 @@ services:
   ripandtear:
     image: undermix/ripandtear:latest
     container_name: ripandtear
+    user: "3000:3000"
     restart: unless-stopped
 
     volumes:
       # Tutti i file scaricati e i .rat vengono persistiti qui
-      - ./data:/data
+      - /hdd1/ripandtear:/data
 
     environment:
       # Intervallo in secondi tra una sync e la prossima (default: 1 ora)
@@ -61,10 +62,11 @@ services:
   # ============================================================================
   manage:
     image: undermix/ripandtear:latest
+    user: "3000:3000"
     profiles:
       - manage   # Non parte con "docker compose up", solo con "docker compose run"
     volumes:
-      - ./data:/data
+      - /hdd1/ripandtear:/data
     working_dir: /data
     environment:
       RAT_DIR: "/data"
