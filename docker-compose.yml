@@ -1,0 +1,74 @@
+services:
+
+  # ============================================================================
+  # ripandtear - Servizio principale di sync continua
+  # ============================================================================
+  # Avvia un loop che ogni SYNC_INTERVAL secondi esegue:
+  #   ripandtear -sr -sR -H
+  # su tutte le directory /data/*/  che contengono un file .rat
+  # ============================================================================
+  ripandtear:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ripandtear
+    restart: unless-stopped
+
+    volumes:
+      # Tutti i file scaricati e i .rat vengono persistiti qui
+      - ./data:/data
+
+    environment:
+      # Intervallo in secondi tra una sync e la prossima (default: 1 ora)
+      SYNC_INTERVAL: "3600"
+      # Directory dei file .rat all'interno del container
+      RAT_DIR: "/data"
+      # Livello di log: 0=silenzioso, 1=normale, 2=verbose
+      LOG_LEVEL: "1"
+      # Impostare a "true" per eseguire un solo sync e uscire
+      RUN_ONCE: "false"
+
+    # Limiti di risorse (opzionale, rimuovi se non necessario)
+    # deploy:
+    #   resources:
+    #     limits:
+    #       memory: 2g
+
+    # Mostra i log in modo leggibile
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+
+  # ============================================================================
+  # manage - Servizio one-shot per gestire utenti/subreddit interattivamente
+  # ============================================================================
+  # Usalo per aggiungere utenti o subreddit senza entrare nel container.
+  # Esempi:
+  #
+  #   Aggiungere un utente Reddit:
+  #     docker compose run --rm manage -mk NomeUtente -r reddit_username -sr
+  #
+  #   Aggiungere un subreddit:
+  #     docker compose run --rm manage -mk NomeSubreddit \
+  #       -d "https://www.reddit.com/r/nome_subreddit/" -H -S
+  #
+  #   Scaricare un singolo URL:
+  #     docker compose run --rm manage -d "https://www.reddit.com/r/pics/comments/..."
+  #
+  #   Vedere i profili salvati in un .rat:
+  #     docker compose run --rm manage  (poi entra in /data/NomeCartella e usa -pr)
+  # ============================================================================
+  manage:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    profiles:
+      - manage   # Non parte con "docker compose up", solo con "docker compose run"
+    volumes:
+      - ./data:/data
+    working_dir: /data
+    environment:
+      RAT_DIR: "/data"
