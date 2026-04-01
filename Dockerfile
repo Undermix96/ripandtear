@@ -23,7 +23,7 @@ RUN groupadd -g 3000 appgroup && \
 RUN mkdir -p /data && chown 3000:3000 /data
 
 COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
+RUN chmod 755 /entrypoint.sh
 
 VOLUME ["/data"]
 
