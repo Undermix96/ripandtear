@@ -1,3 +1,4 @@
+# Se il build fallisce ancora per greenlet, sostituire con: python:3.11-slim
 FROM python:3.12-slim
 
 # Metadati
@@ -15,6 +16,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 # Installa ripandtear e yt-dlp
 RUN pip install --no-cache-dir \
+    "greenlet>=3.0" \
     ripandtear \
     "yt-dlp[default]"
 
