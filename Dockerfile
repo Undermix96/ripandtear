@@ -16,6 +16,10 @@ RUN pip install --no-cache-dir \
     ripandtear \
     "yt-dlp[default]"
 
+# Patch: sostituisce il client_id revocato con uno funzionante
+RUN sed -i 's/qQ49J_mVAhnh6q4wAoJ8jQ/ohXpoqrZYub1kg/g' \
+    /usr/local/lib/python3.11/site-packages/ripandtear/extractors/reddit.py
+
 # Crea utente e gruppo 3000 con home dedicata
 RUN groupadd -g 3000 appgroup && \
     useradd -u 3000 -g 3000 -m -d /home/appuser -s /bin/bash appuser
