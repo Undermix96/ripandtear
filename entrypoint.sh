@@ -46,7 +46,7 @@ sync_rat_dir() {
     local log_flags
     log_flags=$(get_log_flags)
 
-    if ripandtear $log_flags -sr -sR -H; then
+    if ripandtear $log_flags -sa -H -S; then
         log "✓ Sync completata: $rat_name"
     else
         log "⚠ Sync terminata con errori: $rat_name (potrebbe essere normale se non ci sono nuovi contenuti)"
