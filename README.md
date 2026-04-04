@@ -118,3 +118,10 @@ environment:
 - **Niente duplicati**: il flag `-H` (hash) rimuove automaticamente i file duplicati.
 - **Video**: yt-dlp e ffmpeg sono già inclusi nell'immagine per supportare i video Reddit.
 - **Persistenza**: tutti i dati sono in `./data/` sul host — il container è stateless.
+
+
+## Aggiungere Nuovo subreddit
+
+```bash
+ripandtear -mk EarthPorn -u "https://www.reddit.com/r/EarthPorn/top/?sort=top&t=daily&limit=5" -H -S
+```
