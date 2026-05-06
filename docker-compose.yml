@@ -28,21 +28,6 @@ services:
       # Impostare a "true" per eseguire un solo sync e uscire
       RUN_ONCE: "false"
 
-    networks:
-      - proxy
-    labels:
-      - 'traefik.enable=true'
-      - 'traefik.http.routers.ripandtear.rule=Host(`ripandtear.undermix.it`)'
-      - 'traefik.http.routers.ripandtear.entrypoints=websecure'
-      - 'traefik.http.routers.ripandtear.tls.certresolver=cf'
-      - 'traefik.http.services.ripandtear.loadbalancer.server.port=8989'
-      - 'traefik.docker.network=proxy'
-      - "homepage.group=Media"
-      - "homepage.name=RipAndTear"
-      - "homepage.icon=ripandtear.png"
-      - "homepage.href=https://ripandtear.undermix.it"
-      - "homepage.description=RipAndTear"
-      - "homepage.server=my-docker-host"
     # cpus: 1
     # mem_limit: 1024mb
     # # mem_reservation:
@@ -89,7 +74,3 @@ services:
       - manage # Non parte con "docker compose up", solo con "docker compose run"
     user: "3000:3000"
     working_dir: /data
-
-networks:
-  proxy:
-    external: true
